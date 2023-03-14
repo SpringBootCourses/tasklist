@@ -122,6 +122,7 @@ public class UserRepositoryImpl implements UserRepository {
             statement.setString(2, user.getUsername());
             statement.setString(3, user.getPassword());
             statement.setLong(4, user.getId());
+            statement.executeUpdate();
         } catch (SQLException throwables) {
             throw new ResourceMappingException("Exception while updating user.");
         }
