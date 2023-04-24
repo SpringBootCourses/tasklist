@@ -1,5 +1,11 @@
 version: '3'
 
+volumes:
+  cache:
+    driver: local
+  db-data:
+    driver: local
+
 services:
   app:
     build:
@@ -7,10 +13,8 @@ services:
     container_name: tasklist
     depends_on:
       - db
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/tasklist?currentSchema=tasklist
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=z7J.6q
+    env_file:
+      - .env
     ports:
       - '8080:8080'
 
@@ -18,8 +22,19 @@ services:
     image: postgres:15.1-alpine
     container_name: postgres
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=z7J.6q
-      - POSTGRES_DB=tasklist
+      - POSTGRES_USER=${POSTGRES_USERNAME}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DATABASE}
     volumes:
       - ./src/main/resources/db-init:/docker-entrypoint-initdb.d
+      - db-data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7.2-rc-alpine
+    restart: always
+    container_name: redis
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}
+    volumes:
+      - cache:/data
