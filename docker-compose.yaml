@@ -5,6 +5,8 @@ volumes:
     driver: local
   db-data:
     driver: local
+  minio-data:
+    driver: local
 
 services:
   app:
@@ -13,6 +15,8 @@ services:
     container_name: tasklist
     depends_on:
       - db
+      - minio
+      - redis
     env_file:
       - .env
     ports:
@@ -38,3 +42,16 @@ services:
     command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}
     volumes:
       - cache:/data
+
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    environment:
+      - MINIO_ROOT_USER=${MINIO_ACCESS_KEY}
+      - MINIO_ROOT_PASSWORD=${MINIO_SECRET_KEY}
+    command: server ~/minio --console-address :9090
+    ports:
+      - '9090:9090'
+      - '9000:9000'
+    volumes:
+      - minio-data:/minio

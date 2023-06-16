@@ -2,6 +2,7 @@ package com.example.tasklist.web.controller;
 
 import com.example.tasklist.domain.exception.AccessDeniedException;
 import com.example.tasklist.domain.exception.ExceptionBody;
+import com.example.tasklist.domain.exception.ImageUploadException;
 import com.example.tasklist.domain.exception.ResourceMappingException;
 import com.example.tasklist.domain.exception.ResourceNotFoundException;
 import jakarta.validation.ConstraintViolationException;
@@ -11,12 +12,11 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestControllerAdvice
+//@RestControllerAdvice
 public class ControllerAdvice {
 
     @ExceptionHandler(ResourceNotFoundException.class)
@@ -69,6 +69,12 @@ public class ControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionBody handleAuthentication(AuthenticationException e) {
         return new ExceptionBody("Authentication failed.");
+    }
+
+    @ExceptionHandler(ImageUploadException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionBody handleImageUpload(ImageUploadException e) {
+        return new ExceptionBody(e.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
