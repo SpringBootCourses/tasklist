@@ -12,7 +12,7 @@ public class ExceptionBody {
     private String message;
     private Map<String, String> errors;
 
-    public ExceptionBody(String message) {
+    public ExceptionBody(final String message) {
         this.message = message;
     }
 
