@@ -11,7 +11,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.2</version>
+        <version>3.1.2</version>
         <relativePath/>
     </parent>
 
@@ -23,9 +23,9 @@
         <hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
         <jakarta-validation.version>3.0.2</jakarta-validation.version>
         <jjwt.version>0.11.5</jjwt.version>
-        <liquibase.version>4.19.0</liquibase.version>
+        <liquibase.version>4.23.0</liquibase.version>
         <springdoc.version>2.0.2</springdoc.version>
-        <preliquibase.version>1.3.0</preliquibase.version>
+        <preliquibase.version>1.4.0</preliquibase.version>
         <minio.version>8.5.3</minio.version>
         <xml-format.version>3.2.2</xml-format.version>
         <checkstyle.version>3.2.2</checkstyle.version>
