@@ -1,0 +1,37 @@
+scalar LocalDateTime
+
+type User {
+    id: ID
+    name: String
+    username: String
+}
+
+input InputUser {
+    id: ID
+    name: String
+    username: String
+    password: String
+    passwordConfirmation: String
+}
+
+type Task {
+    id: ID
+    title: String
+    description: String
+    status: Status
+    expirationDate: LocalDateTime
+    images: [String]
+}
+
+input InputTask {
+    id: ID
+    title: String
+    description: String
+    expirationDate: LocalDateTime
+}
+
+enum Status {
+    TODO,
+    IN_PROGRESS,
+    DONE
+}

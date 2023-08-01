@@ -29,6 +29,8 @@
         <minio.version>8.5.3</minio.version>
         <xml-format.version>3.2.2</xml-format.version>
         <checkstyle.version>3.2.2</checkstyle.version>
+        <graphql-java-kickstart.version>15.0.0</graphql-java-kickstart.version>
+        <graphql-java-extended-scalars.version>20.2</graphql-java-extended-scalars.version>
     </properties>
 
     <dependencies>
@@ -56,6 +58,23 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-graphql</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.graphql-java-kickstart</groupId>
+            <artifactId>graphql-java-kickstart</artifactId>
+            <version>${graphql-java-kickstart.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.graphql-java</groupId>
+            <artifactId>graphql-java-extended-scalars</artifactId>
+            <version>${graphql-java-extended-scalars.version}</version>
         </dependency>
 
         <dependency>

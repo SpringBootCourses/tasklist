@@ -24,7 +24,6 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    @Transactional(readOnly = true)
     @Cacheable(value = "UserService::getById", key = "#id")
     public User getById(final Long id) {
         return userRepository.findById(id)
@@ -59,8 +58,10 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Caching(cacheable = {
             @Cacheable(value = "UserService::getById",
+                    condition = "#user.id!=null",
                     key = "#user.id"),
             @Cacheable(value = "UserService::getByUsername",
+                    condition = "#user.username!=null",
                     key = "#user.username")
     })
     public User create(final User user) {
