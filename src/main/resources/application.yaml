@@ -18,6 +18,9 @@ spring:
     change-log: classpath:liquibase/db.changelog.yaml
     enabled: true
     default-schema: tasklist
+  graphql:
+    graphiql:
+      enabled: true
 security:
   jwt:
     secret: ${JWT_SECRET}
