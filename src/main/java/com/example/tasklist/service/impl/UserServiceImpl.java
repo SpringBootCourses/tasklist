@@ -24,6 +24,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
+    @Transactional(readOnly = true)
     @Cacheable(value = "UserService::getById", key = "#id")
     public User getById(final Long id) {
         return userRepository.findById(id)
