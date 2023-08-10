@@ -1,9 +1,11 @@
 package com.example.tasklist.service.impl;
 
+import com.example.tasklist.domain.MailType;
 import com.example.tasklist.domain.exception.ResourceNotFoundException;
 import com.example.tasklist.domain.user.Role;
 import com.example.tasklist.domain.user.User;
 import com.example.tasklist.repository.UserRepository;
+import com.example.tasklist.service.MailService;
 import com.example.tasklist.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
@@ -14,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Properties;
 import java.util.Set;
 
 @Service
@@ -22,6 +25,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final MailService mailService;
 
     @Override
     @Transactional(readOnly = true)
@@ -78,6 +82,7 @@ public class UserServiceImpl implements UserService {
         Set<Role> roles = Set.of(Role.ROLE_USER);
         user.setRoles(roles);
         userRepository.save(user);
+        mailService.sendEmail(user, MailType.REGISTRATION, new Properties());
         return user;
     }
 
@@ -87,6 +92,16 @@ public class UserServiceImpl implements UserService {
             key = "#userId + '.' + #taskId")
     public boolean isTaskOwner(final Long userId, final Long taskId) {
         return userRepository.isTaskOwner(userId, taskId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    @Cacheable(value = "UserService::getTaskAuthor",
+            key = "#taskId")
+    public User getTaskAuthor(final Long taskId) {
+        return userRepository.findTaskAuthor(taskId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("User not found."));
     }
 
     @Override
