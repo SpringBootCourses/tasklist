@@ -6,7 +6,6 @@ import com.example.tasklist.domain.user.Role;
 import com.example.tasklist.domain.user.User;
 import com.example.tasklist.repository.TaskRepository;
 import com.example.tasklist.repository.UserRepository;
-import com.example.tasklist.service.UserService;
 import com.example.tasklist.web.dto.auth.JwtRequest;
 import com.example.tasklist.web.dto.auth.JwtResponse;
 import com.example.tasklist.web.security.JwtTokenProvider;
@@ -36,7 +35,7 @@ public class AuthServiceImplTest {
     private AuthenticationManager authenticationManager;
 
     @MockBean
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @MockBean
     private UserRepository userRepository;
@@ -76,11 +75,10 @@ public class AuthServiceImplTest {
                 .authenticate(
                         new UsernamePasswordAuthenticationToken(
                                 request.getUsername(),
-                                request.getPassword()
-                        )
+                                request.getPassword())
                 );
-        Assertions.assertEquals(username, response.getUsername());
-        Assertions.assertEquals(userId, response.getId());
+        Assertions.assertEquals(response.getUsername(), username);
+        Assertions.assertEquals(response.getId(), userId);
         Assertions.assertNotNull(response.getAccessToken());
         Assertions.assertNotNull(response.getRefreshToken());
     }
@@ -92,6 +90,8 @@ public class AuthServiceImplTest {
         JwtRequest request = new JwtRequest();
         request.setUsername(username);
         request.setPassword(password);
+        User user = new User();
+        user.setUsername(username);
         Mockito.when(userService.getByUsername(username))
                 .thenThrow(ResourceNotFoundException.class);
         Mockito.verifyNoInteractions(tokenProvider);
@@ -101,8 +101,8 @@ public class AuthServiceImplTest {
 
     @Test
     void refresh() {
-        String accessToken = "accessToken";
         String refreshToken = "refreshToken";
+        String accessToken = "accessToken";
         String newRefreshToken = "newRefreshToken";
         JwtResponse response = new JwtResponse();
         response.setAccessToken(accessToken);
@@ -111,7 +111,7 @@ public class AuthServiceImplTest {
                 .thenReturn(response);
         JwtResponse testResponse = authService.refresh(refreshToken);
         Mockito.verify(tokenProvider).refreshUserTokens(refreshToken);
-        Assertions.assertEquals(response, testResponse);
+        Assertions.assertEquals(testResponse, response);
     }
 
 }
