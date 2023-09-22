@@ -20,6 +20,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -78,6 +79,21 @@ public class TaskServiceImplTest {
                 .thenReturn(tasks);
         List<Task> testTasks = taskService.getAllByUserId(userId);
         Mockito.verify(taskRepository).findAllByUserId(userId);
+        Assertions.assertEquals(tasks, testTasks);
+    }
+
+    @Test
+    void getSoonTasks() {
+        Duration duration = Duration.ofHours(1);
+        List<Task> tasks = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            tasks.add(new Task());
+        }
+        Mockito.when(taskRepository.findAllSoonTasks(Mockito.any(), Mockito.any()))
+                .thenReturn(tasks);
+        List<Task> testTasks = taskService.getAllSoonTasks(duration);
+        Mockito.verify(taskRepository)
+                .findAllSoonTasks(Mockito.any(), Mockito.any());
         Assertions.assertEquals(tasks, testTasks);
     }
 

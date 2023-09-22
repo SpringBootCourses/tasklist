@@ -30,7 +30,8 @@
         <xml-format.version>3.2.2</xml-format.version>
         <checkstyle.version>3.2.2</checkstyle.version>
         <graphql-java-kickstart.version>15.0.0</graphql-java-kickstart.version>
-        <graphql-scalars.version>20.2</graphql-scalars.version>
+        <graphql-java-extended-scalars.version>20.2</graphql-java-extended-scalars.version>
+        <junit-jupiter.version>5.10.0</junit-jupiter.version>
         <mockito.version>5.4.0</mockito.version>
         <jacoco.version>0.8.8</jacoco.version>
     </properties>
@@ -68,6 +69,22 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+          
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-freemarker</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.graphql-java-kickstart</groupId>
             <artifactId>graphql-java-kickstart</artifactId>
             <version>${graphql-java-kickstart.version}</version>
@@ -76,7 +93,7 @@
         <dependency>
             <groupId>com.graphql-java</groupId>
             <artifactId>graphql-java-extended-scalars</artifactId>
-            <version>${graphql-scalars.version}</version>
+            <version>${graphql-java-extended-scalars.version}</version>
         </dependency>
 
         <dependency>
@@ -167,21 +184,16 @@
         </dependency>
 
         <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <version>${mockito.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
 
@@ -238,7 +250,7 @@
                             <goal>check</goal>
                         </goals>
                         <configuration>
-                            <suppressionsFileExpression>checkstyle-suppressions.xml</suppressionsFileExpression>
+                            <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
                             <suppressionsLocation>checkstyle-suppressions.xml</suppressionsLocation>
                         </configuration>
                     </execution>

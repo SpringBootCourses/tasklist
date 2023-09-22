@@ -1,6 +1,7 @@
 package com.example.tasklist.service.impl;
 
 import com.example.tasklist.config.TestConfig;
+import com.example.tasklist.domain.MailType;
 import com.example.tasklist.domain.exception.ResourceNotFoundException;
 import com.example.tasklist.domain.user.Role;
 import com.example.tasklist.domain.user.User;
@@ -20,6 +21,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
+import java.util.Properties;
 import java.util.Set;
 
 @ExtendWith(SpringExtension.class)
@@ -39,6 +41,9 @@ public class UserServiceImplTest {
 
     @MockBean
     private BCryptPasswordEncoder passwordEncoder;
+
+    @MockBean
+    private MailServiceImpl mailService;
 
     @Autowired
     private UserServiceImpl userService;
@@ -124,6 +129,9 @@ public class UserServiceImplTest {
                 .thenReturn("encodedPassword");
         User testUser = userService.create(user);
         Mockito.verify(userRepository).save(user);
+        Mockito.verify(mailService).sendEmail(user,
+                MailType.REGISTRATION,
+                new Properties());
         Assertions.assertEquals(Set.of(Role.ROLE_USER), testUser.getRoles());
         Assertions.assertEquals("encodedPassword",
                 testUser.getPassword());
@@ -171,6 +179,30 @@ public class UserServiceImplTest {
         boolean isOwner = userService.isTaskOwner(userId, taskId);
         Mockito.verify(userRepository).isTaskOwner(userId, taskId);
         Assertions.assertFalse(isOwner);
+    }
+
+    @Test
+    void getTaskAuthor() {
+        Long taskId = 1L;
+        Long userId = 1L;
+        User user = new User();
+        user.setId(userId);
+        Mockito.when(userRepository.findTaskAuthor(taskId))
+                .thenReturn(Optional.of(user));
+        User author = userService.getTaskAuthor(taskId);
+        Mockito.verify(userRepository).findTaskAuthor(taskId);
+        Assertions.assertEquals(user, author);
+    }
+
+    @Test
+    void getNotExistingTaskAuthor() {
+        Long taskId = 1L;
+        Mockito.when(userRepository.findTaskAuthor(taskId))
+                .thenReturn(Optional.empty());
+        Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+            userService.getTaskAuthor(taskId);
+        });
+        Mockito.verify(userRepository).findTaskAuthor(taskId);
     }
 
     @Test
