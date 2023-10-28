@@ -54,6 +54,9 @@ public class UserServiceImpl implements UserService {
                     key = "#user.username")
     })
     public User update(final User user) {
+        User existing = getById(user.getId());
+        existing.setName(user.getName());
+        user.setUsername(user.getUsername());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return user;

@@ -6,7 +6,6 @@ import com.example.tasklist.domain.task.Status;
 import com.example.tasklist.domain.task.Task;
 import com.example.tasklist.domain.task.TaskImage;
 import com.example.tasklist.repository.TaskRepository;
-import com.example.tasklist.repository.UserRepository;
 import com.example.tasklist.service.ImageService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -16,7 +15,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -36,12 +34,6 @@ public class TaskServiceImplTest {
 
     @MockBean
     private ImageService imageService;
-
-    @MockBean
-    private UserRepository userRepository;
-
-    @MockBean
-    private AuthenticationManager authenticationManager;
 
     @Autowired
     private TaskServiceImpl taskService;
@@ -99,18 +91,37 @@ public class TaskServiceImplTest {
 
     @Test
     void update() {
+        Long id = 1L;
         Task task = new Task();
+        task.setId(id);
         task.setStatus(Status.DONE);
+        Mockito.when(taskRepository.findById(task.getId()))
+                .thenReturn(Optional.of(task));
         Task testTask = taskService.update(task);
         Mockito.verify(taskRepository).save(task);
         Assertions.assertEquals(task, testTask);
+        Assertions.assertEquals(task.getTitle(), testTask.getTitle());
+        Assertions.assertEquals(
+                task.getDescription(),
+                testTask.getDescription()
+        );
+        Assertions.assertEquals(task.getStatus(), testTask.getStatus());
     }
 
     @Test
     void updateWithEmptyStatus() {
+        Long id = 1L;
         Task task = new Task();
+        task.setId(id);
+        Mockito.when(taskRepository.findById(task.getId()))
+                .thenReturn(Optional.of(task));
         Task testTask = taskService.update(task);
         Mockito.verify(taskRepository).save(task);
+        Assertions.assertEquals(task.getTitle(), testTask.getTitle());
+        Assertions.assertEquals(
+                task.getDescription(),
+                testTask.getDescription()
+        );
         Assertions.assertEquals(testTask.getStatus(), Status.TODO);
     }
 

@@ -5,7 +5,6 @@ import com.example.tasklist.domain.MailType;
 import com.example.tasklist.domain.exception.ResourceNotFoundException;
 import com.example.tasklist.domain.user.Role;
 import com.example.tasklist.domain.user.User;
-import com.example.tasklist.repository.TaskRepository;
 import com.example.tasklist.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -15,7 +14,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -32,12 +30,6 @@ public class UserServiceImplTest {
 
     @MockBean
     private UserRepository userRepository;
-
-    @MockBean
-    private TaskRepository taskRepository;
-
-    @MockBean
-    private AuthenticationManager authenticationManager;
 
     @MockBean
     private BCryptPasswordEncoder passwordEncoder;
@@ -94,14 +86,20 @@ public class UserServiceImplTest {
 
     @Test
     void update() {
+        Long id = 1L;
         String password = "password";
         User user = new User();
+        user.setId(id);
         user.setPassword(password);
         Mockito.when(passwordEncoder.encode(password))
                 .thenReturn("encodedPassword");
-        userService.update(user);
+        Mockito.when(userRepository.findById(user.getId()))
+                .thenReturn(Optional.of(user));
+        User updated = userService.update(user);
         Mockito.verify(passwordEncoder).encode(password);
         Mockito.verify(userRepository).save(user);
+        Assertions.assertEquals(user.getUsername(), updated.getUsername());
+        Assertions.assertEquals(user.getName(), updated.getName());
     }
 
     @Test
@@ -199,9 +197,8 @@ public class UserServiceImplTest {
         Long taskId = 1L;
         Mockito.when(userRepository.findTaskAuthor(taskId))
                 .thenReturn(Optional.empty());
-        Assertions.assertThrows(ResourceNotFoundException.class, () -> {
-            userService.getTaskAuthor(taskId);
-        });
+        Assertions.assertThrows(ResourceNotFoundException.class, () ->
+                userService.getTaskAuthor(taskId));
         Mockito.verify(userRepository).findTaskAuthor(taskId);
     }
 

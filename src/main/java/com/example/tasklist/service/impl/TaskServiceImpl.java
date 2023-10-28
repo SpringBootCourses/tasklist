@@ -53,9 +53,15 @@ public class TaskServiceImpl implements TaskService {
     @Transactional
     @CachePut(value = "TaskService::getById", key = "#task.id")
     public Task update(final Task task) {
+        Task existing = getById(task.getId());
         if (task.getStatus() == null) {
-            task.setStatus(Status.TODO);
+            existing.setStatus(Status.TODO);
+        } else {
+            existing.setStatus(task.getStatus());
         }
+        existing.setTitle(task.getTitle());
+        existing.setDescription(task.getDescription());
+        existing.setExpirationDate(task.getExpirationDate());
         taskRepository.save(task);
         return task;
     }
@@ -66,7 +72,9 @@ public class TaskServiceImpl implements TaskService {
             condition = "#task.id!=null",
             key = "#task.id")
     public Task create(final Task task, final Long userId) {
-        task.setStatus(Status.TODO);
+        if (task.getStatus() != null) {
+            task.setStatus(Status.TODO);
+        }
         taskRepository.save(task);
         taskRepository.assignTask(userId, task.getId());
         return task;

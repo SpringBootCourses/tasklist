@@ -28,10 +28,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @RequiredArgsConstructor
 public class TestConfig {
 
-    private final UserRepository userRepository;
-    private final TaskRepository taskRepository;
-    private final AuthenticationManager authenticationManager;
-
     @Bean
     @Primary
     public BCryptPasswordEncoder testPasswordEncoder() {
@@ -48,8 +44,10 @@ public class TestConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
-        return new JwtUserDetailsService(userService());
+    public UserDetailsService userDetailsService(
+            final UserRepository userRepository
+    ) {
+        return new JwtUserDetailsService(userService(userRepository));
     }
 
     @Bean
@@ -87,15 +85,19 @@ public class TestConfig {
     }
 
     @Bean
-    public JwtTokenProvider tokenProvider() {
+    public JwtTokenProvider tokenProvider(
+            final UserRepository userRepository
+    ) {
         return new JwtTokenProvider(jwtProperties(),
-                userDetailsService(),
-                userService());
+                userDetailsService(userRepository),
+                userService(userRepository));
     }
 
     @Bean
     @Primary
-    public UserServiceImpl userService() {
+    public UserServiceImpl userService(
+            final UserRepository userRepository
+    ) {
         return new UserServiceImpl(
                 userRepository,
                 testPasswordEncoder(),
@@ -105,16 +107,38 @@ public class TestConfig {
 
     @Bean
     @Primary
-    public TaskServiceImpl taskService() {
+    public TaskServiceImpl taskService(
+            final TaskRepository taskRepository
+    ) {
         return new TaskServiceImpl(taskRepository, imageService());
     }
 
     @Bean
     @Primary
-    public AuthServiceImpl authService() {
-        return new AuthServiceImpl(authenticationManager,
-                userService(),
-                tokenProvider());
+    public AuthServiceImpl authService(
+            final UserRepository userRepository,
+            final AuthenticationManager authenticationManager
+    ) {
+        return new AuthServiceImpl(
+                authenticationManager,
+                userService(userRepository),
+                tokenProvider(userRepository)
+        );
+    }
+
+    @Bean
+    public UserRepository userRepository() {
+        return Mockito.mock(UserRepository.class);
+    }
+
+    @Bean
+    public TaskRepository taskRepository() {
+        return Mockito.mock(TaskRepository.class);
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager() {
+        return Mockito.mock(AuthenticationManager.class);
     }
 
 }
