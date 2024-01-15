@@ -1,5 +1,9 @@
 version: '3'
 
+networks:
+  app-network:
+    driver: bridge
+
 volumes:
   cache:
     driver: local
@@ -13,6 +17,8 @@ services:
     build:
       context: .
     container_name: tasklist
+    networks:
+      - app-network
     depends_on:
       - db
       - minio
@@ -25,6 +31,8 @@ services:
   db:
     image: postgres:15.1-alpine
     container_name: postgres
+    networks:
+      - app-network
     environment:
       - POSTGRES_USER=${POSTGRES_USERNAME}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
@@ -37,6 +45,8 @@ services:
     image: redis:7.2-rc-alpine
     restart: always
     container_name: redis
+    networks:
+      - app-network
     ports:
       - '6379:6379'
     command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}
@@ -46,6 +56,8 @@ services:
   minio:
     image: minio/minio:latest
     container_name: minio
+    networks:
+      - app-network
     environment:
       - MINIO_ROOT_USER=${MINIO_ACCESS_KEY}
       - MINIO_ROOT_PASSWORD=${MINIO_SECRET_KEY}
