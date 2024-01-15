@@ -22,7 +22,7 @@
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
         <jakarta-validation.version>3.0.2</jakarta-validation.version>
-        <jjwt.version>0.11.5</jjwt.version>
+        <jjwt.version>0.12.3</jjwt.version>
         <liquibase.version>4.23.0</liquibase.version>
         <springdoc.version>2.0.2</springdoc.version>
         <preliquibase.version>1.4.0</preliquibase.version>
@@ -73,7 +73,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-          
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
