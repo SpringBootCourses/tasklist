@@ -24,7 +24,7 @@
         <jakarta-validation.version>3.0.2</jakarta-validation.version>
         <jjwt.version>0.12.3</jjwt.version>
         <liquibase.version>4.25.1</liquibase.version>
-        <springdoc.version>2.0.2</springdoc.version>
+        <springdoc.version>2.3.0</springdoc.version>
         <preliquibase.version>1.4.0</preliquibase.version>
         <minio.version>8.5.3</minio.version>
         <xml-format.version>3.2.2</xml-format.version>
