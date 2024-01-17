@@ -26,7 +26,7 @@
         <liquibase.version>4.25.1</liquibase.version>
         <springdoc.version>2.3.0</springdoc.version>
         <preliquibase.version>1.4.0</preliquibase.version>
-        <minio.version>8.5.3</minio.version>
+        <minio.version>8.5.7</minio.version>
         <xml-format.version>3.2.2</xml-format.version>
         <checkstyle.version>3.2.2</checkstyle.version>
         <graphql-java-kickstart.version>15.0.0</graphql-java-kickstart.version>
