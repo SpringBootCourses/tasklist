@@ -29,7 +29,7 @@
         <minio.version>8.5.7</minio.version>
         <xml-format.version>3.2.2</xml-format.version>
         <checkstyle.version>3.2.2</checkstyle.version>
-        <graphql-java-kickstart.version>15.0.0</graphql-java-kickstart.version>
+        <graphql-java-kickstart.version>15.1.0</graphql-java-kickstart.version>
         <graphql-java-extended-scalars.version>20.2</graphql-java-extended-scalars.version>
         <junit-jupiter.version>5.10.1</junit-jupiter.version>
         <mockito.version>5.9.0</mockito.version>
