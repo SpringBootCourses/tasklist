@@ -12,7 +12,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableScheduling
 public class TasklistApplication {
 
-    public static void main(final String[] args) {
+    public static void main(
+            final String[] args
+    ) {
         SpringApplication.run(TasklistApplication.class, args);
     }
 

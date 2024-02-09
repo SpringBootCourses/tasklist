@@ -16,28 +16,38 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
             JOIN users_tasks ut ON ut.task_id = t.id
             WHERE ut.user_id = :userId
             """, nativeQuery = true)
-    List<Task> findAllByUserId(@Param("userId") Long userId);
+    List<Task> findAllByUserId(
+            @Param("userId") Long userId
+    );
 
     @Query(value = """
             SELECT * FROM tasks t
             WHERE t.expiration_date is not null
             AND t.expiration_date between :start and :end
             """, nativeQuery = true)
-    List<Task> findAllSoonTasks(@Param("start") Timestamp start,
-                                @Param("end") Timestamp end);
+    List<Task> findAllSoonTasks(
+            @Param("start") Timestamp start,
+            @Param("end") Timestamp end
+    );
 
     @Modifying
     @Query(value = """
             INSERT INTO users_tasks (user_id, task_id)
             VALUES (:userId, :taskId)
             """, nativeQuery = true)
-    void assignTask(@Param("userId") Long userId, @Param("taskId") Long taskId);
+    void assignTask(
+            @Param("userId") Long userId,
+            @Param("taskId") Long taskId
+    );
 
     @Modifying
     @Query(value = """
             INSERT INTO tasks_images (task_id, image)
             VALUES (:id, :fileName)
             """, nativeQuery = true)
-    void addImage(@Param("id") Long id, @Param("fileName") String fileName);
+    void addImage(
+            @Param("id") Long id,
+            @Param("fileName") String fileName
+    );
 
 }

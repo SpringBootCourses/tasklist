@@ -20,6 +20,7 @@ import java.util.Properties;
 import java.util.Set;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
@@ -28,18 +29,26 @@ public class UserServiceImpl implements UserService {
     private final MailService mailService;
 
     @Override
-    @Transactional(readOnly = true)
-    @Cacheable(value = "UserService::getById", key = "#id")
-    public User getById(final Long id) {
+    @Cacheable(
+            value = "UserService::getById",
+            key = "#id"
+    )
+    public User getById(
+            final Long id
+    ) {
         return userRepository.findById(id)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("User not found."));
     }
 
     @Override
-    @Transactional(readOnly = true)
-    @Cacheable(value = "UserService::getByUsername", key = "#username")
-    public User getByUsername(final String username) {
+    @Cacheable(
+            value = "UserService::getByUsername",
+            key = "#username"
+    )
+    public User getByUsername(
+            final String username
+    ) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("User not found."));
@@ -48,12 +57,18 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     @Caching(put = {
-            @CachePut(value = "UserService::getById",
-                    key = "#user.id"),
-            @CachePut(value = "UserService::getByUsername",
-                    key = "#user.username")
+            @CachePut(
+                    value = "UserService::getById",
+                    key = "#user.id"
+            ),
+            @CachePut(
+                    value = "UserService::getByUsername",
+                    key = "#user.username"
+            )
     })
-    public User update(final User user) {
+    public User update(
+            final User user
+    ) {
         User existing = getById(user.getId());
         existing.setName(user.getName());
         user.setUsername(user.getUsername());
@@ -65,14 +80,20 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     @Caching(cacheable = {
-            @Cacheable(value = "UserService::getById",
+            @Cacheable(
+                    value = "UserService::getById",
                     condition = "#user.id!=null",
-                    key = "#user.id"),
-            @Cacheable(value = "UserService::getByUsername",
+                    key = "#user.id"
+            ),
+            @Cacheable(
+                    value = "UserService::getByUsername",
                     condition = "#user.username!=null",
-                    key = "#user.username")
+                    key = "#user.username"
+            )
     })
-    public User create(final User user) {
+    public User create(
+            final User user
+    ) {
         if (userRepository.findByUsername(user.getUsername()).isPresent()) {
             throw new IllegalStateException("User already exists.");
         }
@@ -90,18 +111,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    @Cacheable(value = "UserService::isTaskOwner",
-            key = "#userId + '.' + #taskId")
-    public boolean isTaskOwner(final Long userId, final Long taskId) {
+    @Cacheable(
+            value = "UserService::isTaskOwner",
+            key = "#userId + '.' + #taskId"
+    )
+    public boolean isTaskOwner(
+            final Long userId,
+            final Long taskId
+    ) {
         return userRepository.isTaskOwner(userId, taskId);
     }
 
     @Override
-    @Transactional(readOnly = true)
-    @Cacheable(value = "UserService::getTaskAuthor",
-            key = "#taskId")
-    public User getTaskAuthor(final Long taskId) {
+    @Cacheable(
+            value = "UserService::getTaskAuthor",
+            key = "#taskId"
+    )
+    public User getTaskAuthor(
+            final Long taskId
+    ) {
         return userRepository.findTaskAuthor(taskId)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("User not found."));
@@ -109,8 +137,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    @CacheEvict(value = "UserService::getById", key = "#id")
-    public void delete(final Long id) {
+    @CacheEvict(
+            value = "UserService::getById",
+            key = "#id"
+    )
+    public void delete(
+            final Long id
+    ) {
         userRepository.deleteById(id);
     }
 
