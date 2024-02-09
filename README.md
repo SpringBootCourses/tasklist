@@ -2,6 +2,8 @@
 
 This application helps you organize creating and accessing tasks for users.
 
+This is part of [YouTube course](https://www.youtube.com/playlist?list=PL3Ur78l82EFD8OKSulH3NaK1As4G7YWMJ)
+
 You can access Swagger and see all available endpoints by visiting `http://localhost:8080/swagger-ui/index.html`
 
 ## Sequence diagram
