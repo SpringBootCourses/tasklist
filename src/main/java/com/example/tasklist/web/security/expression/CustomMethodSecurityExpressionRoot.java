@@ -31,18 +31,20 @@ public class CustomMethodSecurityExpressionRoot
         super(authentication);
     }
 
-    public boolean canAccessUser(final Long id) {
-        Authentication authentication = SecurityContextHolder.getContext()
-                .getAuthentication();
-
-        JwtEntity user = (JwtEntity) authentication.getPrincipal();
+    public boolean canAccessUser(
+            final Long id
+    ) {
+        JwtEntity user = (JwtEntity) this.getPrincipal();
         Long userId = user.getId();
 
-        return userId.equals(id) || hasAnyRole(authentication, Role.ROLE_ADMIN);
+        return userId.equals(id) || hasAnyRole(Role.ROLE_ADMIN);
     }
 
-    private boolean hasAnyRole(final Authentication authentication,
-                               final Role... roles) {
+    private boolean hasAnyRole(
+            final Role... roles
+    ) {
+        Authentication authentication = SecurityContextHolder.getContext()
+                .getAuthentication();
         for (Role role : roles) {
             SimpleGrantedAuthority authority
                     = new SimpleGrantedAuthority(role.name());
@@ -54,10 +56,7 @@ public class CustomMethodSecurityExpressionRoot
     }
 
     public boolean canAccessTask(final Long taskId) {
-        Authentication authentication = SecurityContextHolder.getContext()
-                .getAuthentication();
-
-        JwtEntity user = (JwtEntity) authentication.getPrincipal();
+        JwtEntity user = (JwtEntity) this.getPrincipal();
         Long id = user.getId();
 
         return userService.isTaskOwner(id, taskId);
