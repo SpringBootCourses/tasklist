@@ -40,8 +40,8 @@ public class UserDto {
     private String name;
 
     @Schema(
-            description = "User email",
-            example = "johndoe@gmail.com"
+            description = "User nickname",
+            example = "johndoe174"
     )
     @NotNull(
             message = "Username must be not null.",
