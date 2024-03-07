@@ -18,7 +18,7 @@
     <properties>
         <java.version>17</java.version>
         <lombok.version>1.18.30</lombok.version>
-        <postgresql.version>42.7.1</postgresql.version>
+        <postgresql.version>42.7.2</postgresql.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <jjwt.version>0.12.5</jjwt.version>
         <liquibase.version>4.26.0</liquibase.version>
