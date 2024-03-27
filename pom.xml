@@ -22,7 +22,7 @@
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <jjwt.version>0.12.5</jjwt.version>
         <liquibase.version>4.26.0</liquibase.version>
-        <springdoc.version>2.3.0</springdoc.version>
+        <springdoc.version>2.4.0</springdoc.version>
         <preliquibase.version>1.4.0</preliquibase.version>
         <minio.version>8.5.9</minio.version>
         <xml-format.version>3.3.1</xml-format.version>
