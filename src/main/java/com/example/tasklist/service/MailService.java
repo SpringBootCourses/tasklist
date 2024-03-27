@@ -7,6 +7,10 @@ import java.util.Properties;
 
 public interface MailService {
 
-    void sendEmail(User user, MailType type, Properties params);
+    void sendEmail(
+            User user,
+            MailType type,
+            Properties params
+    );
 
 }

@@ -17,9 +17,11 @@ public class JwtTokenFilter extends GenericFilterBean {
 
     @Override
     @SneakyThrows
-    public void doFilter(final ServletRequest servletRequest,
-                         final ServletResponse servletResponse,
-                         final FilterChain filterChain) {
+    public void doFilter(
+            final ServletRequest servletRequest,
+            final ServletResponse servletResponse,
+            final FilterChain filterChain
+    ) {
         String bearerToken = ((HttpServletRequest) servletRequest)
                 .getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
@@ -27,7 +29,7 @@ public class JwtTokenFilter extends GenericFilterBean {
         }
         try {
             if (bearerToken != null
-                    && jwtTokenProvider.validateToken(bearerToken)) {
+                    && jwtTokenProvider.isValid(bearerToken)) {
                 Authentication authentication
                         = jwtTokenProvider.getAuthentication(bearerToken);
                 if (authentication != null) {
@@ -39,4 +41,5 @@ public class JwtTokenFilter extends GenericFilterBean {
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }
+
 }

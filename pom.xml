@@ -11,29 +11,27 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.1</version>
+        <version>3.2.3</version>
         <relativePath/>
     </parent>
 
     <properties>
         <java.version>17</java.version>
         <lombok.version>1.18.30</lombok.version>
-        <postgresql.version>42.7.1</postgresql.version>
+        <postgresql.version>42.7.3</postgresql.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
-        <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
-        <jakarta-validation.version>3.0.2</jakarta-validation.version>
-        <jjwt.version>0.12.3</jjwt.version>
-        <liquibase.version>4.25.1</liquibase.version>
-        <springdoc.version>2.3.0</springdoc.version>
+        <jjwt.version>0.12.5</jjwt.version>
+        <liquibase.version>4.26.0</liquibase.version>
+        <springdoc.version>2.4.0</springdoc.version>
         <preliquibase.version>1.5.0</preliquibase.version>
-        <minio.version>8.5.7</minio.version>
-        <xml-format.version>3.2.2</xml-format.version>
-        <checkstyle.version>3.2.2</checkstyle.version>
-        <graphql-java-kickstart.version>15.0.0</graphql-java-kickstart.version>
+        <minio.version>8.5.9</minio.version>
+        <xml-format.version>3.3.1</xml-format.version>
+        <checkstyle.version>3.3.1</checkstyle.version>
+        <graphql-java-kickstart.version>15.2.0</graphql-java-kickstart.version>
         <graphql-java-extended-scalars.version>20.2</graphql-java-extended-scalars.version>
-        <junit-jupiter.version>5.10.1</junit-jupiter.version>
-        <mockito.version>5.9.0</mockito.version>
-        <jacoco.version>0.8.8</jacoco.version>
+        <junit-jupiter.version>5.10.2</junit-jupiter.version>
+        <mockito.version>5.11.0</mockito.version>
+        <jacoco.version>0.8.11</jacoco.version>
     </properties>
 
     <dependencies>
@@ -51,6 +49,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
         <dependency>
@@ -137,18 +140,6 @@
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-processor</artifactId>
             <version>${mapstruct.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hibernate.validator</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>${hibernate-validator.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>jakarta.validation</groupId>
-            <artifactId>jakarta.validation-api</artifactId>
-            <version>${jakarta-validation.version}</version>
         </dependency>
 
         <dependency>

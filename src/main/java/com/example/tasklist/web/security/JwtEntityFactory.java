@@ -11,7 +11,9 @@ import java.util.stream.Collectors;
 
 public final class JwtEntityFactory {
 
-    public static JwtEntity create(final User user) {
+    public static JwtEntity create(
+            final User user
+    ) {
         return new JwtEntity(
                 user.getId(),
                 user.getUsername(),

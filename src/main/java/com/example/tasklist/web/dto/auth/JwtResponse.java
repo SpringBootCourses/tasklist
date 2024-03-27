@@ -1,8 +1,12 @@
 package com.example.tasklist.web.dto.auth;
 
-import lombok.Data;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@Schema(description = "Request after login")
 public class JwtResponse {
 
     private Long id;
