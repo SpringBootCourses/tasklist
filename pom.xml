@@ -28,7 +28,7 @@
         <xml-format.version>3.3.1</xml-format.version>
         <checkstyle.version>3.3.1</checkstyle.version>
         <graphql-java-kickstart.version>15.2.0</graphql-java-kickstart.version>
-        <graphql-java-extended-scalars.version>21.0</graphql-java-extended-scalars.version>
+        <graphql-java-extended-scalars.version>22.0</graphql-java-extended-scalars.version>
         <junit-jupiter.version>5.10.2</junit-jupiter.version>
         <mockito.version>5.11.0</mockito.version>
         <jacoco.version>0.8.12</jacoco.version>
