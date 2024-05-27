@@ -4,7 +4,7 @@ COPY pom.xml .
 RUN mvn dependency:go-offline
 COPY /src /src
 COPY checkstyle-suppressions.xml .
-RUN mvn package -DskipTests
+RUN mvn clean package -DskipTests
 
 FROM openjdk:17-jdk-slim
 COPY --from=build /target/*.jar application.jar
