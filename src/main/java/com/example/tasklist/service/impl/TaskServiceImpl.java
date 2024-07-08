@@ -89,7 +89,7 @@ public class TaskServiceImpl implements TaskService {
             final Task task,
             final Long userId
     ) {
-        if (task.getStatus() != null) {
+        if (task.getStatus() == null) {
             task.setStatus(Status.TODO);
         }
         taskRepository.save(task);
