@@ -69,7 +69,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    @MutationMapping(name = "deleteUserById")
+    @MutationMapping(name = "deleteUser")
     @Operation(summary = "Delete user by id")
     @PreAuthorize("@cse.canAccessUser(#id)")
     public void deleteById(
