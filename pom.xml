@@ -23,7 +23,7 @@
         <jjwt.version>0.12.5</jjwt.version>
         <liquibase.version>4.27.0</liquibase.version>
         <springdoc.version>2.5.0</springdoc.version>
-        <preliquibase.version>1.5.0</preliquibase.version>
+        <preliquibase.version>1.5.1</preliquibase.version>
         <minio.version>8.5.10</minio.version>
         <xml-format.version>3.3.1</xml-format.version>
         <checkstyle.version>3.3.1</checkstyle.version>
